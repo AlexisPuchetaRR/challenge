@@ -6,4 +6,5 @@ export default interface Contact {
   job_title: string
   area: string
   is_active: boolean
+  is_pinned: boolean
 }

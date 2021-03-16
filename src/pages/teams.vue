@@ -38,6 +38,16 @@ export default {
         is_active: false,
         is_pinned: true,
       },
+      {
+        id: 4,
+        first_name: 'Wain',
+        last_name: 'Valeri',
+        email: 'wvaleri1@dion.ne.jp',
+        job_title: 'Director of Sales',
+        area: 'Human Resources',
+        is_active: false,
+        is_pinned: true,
+      },
     ]
 
     return {

@@ -7,7 +7,7 @@
           <span v-if="personal.is_active" class="pl-3"><img src="assets/active.svg"></span>
           <span v-else-if="!personal.is_active" class="pl-3"><img src="assets/busy.svg"></span>
         </div>
-        <p class="text-gray-500">
+        <p class="text-gray-500 text-sm">
           {{ personal.job_title }}
         </p>
       </div>

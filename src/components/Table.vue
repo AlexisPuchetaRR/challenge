@@ -1,17 +1,17 @@
 <template>
-  <div class="w-full text-left">
+  <div class="text-left mx-2">
     <span class="text-gray-900 pl-6.5">
       All contacts
     </span>
-    <table class="w-full bg-white text-cool-gray-900 text-left px-5">
-      <tr class="font-medium text-xs leading-4 h-10 text-gray-500 bg-gray-50 rounded-lg">
+    <table class="w-full bg-white text-cool-gray-900 text-left px-5 ">
+      <tr class="font-medium text-xs leading-4 h-10 text-gray-500">
         <th class="w-2/4 pl-6">
           Name
         </th>
-        <th class="w-1/3 pl-6">
+        <th class="w-1/3 pl-6 xs:hidden md:inline-block">
           Title
         </th>
-        <th class="pl-6">
+        <th class="pl-6 xs:hidden md:inline-block">
           Status
         </th>
       </tr>
@@ -24,7 +24,7 @@
           Try again
         </button>
       </div>
-      <TableRow v-for="contact in data" v-else :key="contact.id" :contact="contact" />
+      <TableRow v-for="contact in data" v-else :key="contact.id" class="border-b-1 border-gray-200" :contact="contact" />
     </table>
   </div>
 </template>
