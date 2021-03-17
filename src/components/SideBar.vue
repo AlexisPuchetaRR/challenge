@@ -1,5 +1,10 @@
 <template>
-  <div v-if="show">
+  <div
+    :class="[
+      !isShowSideBar &&
+        'hidden md:block',
+    ]"
+  >
     <div class="flex flex-col min-w-64 bg-indigo-700 h-screen">
       <router-link to="/">
         <div class="h-10 flex flex-row items-center pl-2 my-5 hover:bg-indigo-800 ">
@@ -38,13 +43,10 @@
 </template>
 
 <script lang="ts">
+import { isShowSideBar } from '~/logics'
 export default {
-  props: {
-    show: {
-      type: Boolean,
-      default() {
-      },
-    },
+  setup() {
+    return { isShowSideBar }
   },
 }
 </script>

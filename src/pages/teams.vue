@@ -1,62 +1,78 @@
 <template>
   <div class="w-full">
-    <PinnedContacts :team="team" />
-    <Table />
+    <div v-if="isLoading">
+      Loading ...
+    </div>
+    <div v-else-if="error">
+      {{ error.message }}
+      <button class="btn m-3 text-sm mt-8" @click="getContacts">
+        Try again
+      </button>
+    </div>
+    <div v-else>
+      <PinnedContacts :team="pinnedContacts" />
+      <Table :contacts="unpinnedContacts" />
+    </div>
   </div>
 </template>
-
 <script lang="ts">
+import { watch, ref } from 'vue'
+
+import axios, { AxiosResponse } from 'axios'
+import { queryString } from '~/logics'
+import Contact from '~/interfaces/contact'
+
 export default {
   setup() {
-    const team = [
-      {
-        id: 1,
-        first_name: 'Andy',
-        last_name: 'Toke',
-        email: 'atoke0@bizjournals.com',
-        job_title: 'VP Product Management',
-        area: 'Human Resources',
-        is_active: true,
-        is_pinned: true,
-      }, {
-        id: 2,
-        first_name: 'Wain',
-        last_name: 'Valeri',
-        email: 'wvaleri1@dion.ne.jp',
-        job_title: 'Director of Sales',
-        area: 'Human Resources',
-        is_active: false,
-        is_pinned: true,
-      },
-      {
-        id: 3,
-        first_name: 'Wain',
-        last_name: 'Valeri',
-        email: 'wvaleri1@dion.ne.jp',
-        job_title: 'Director of Sales',
-        area: 'Human Resources',
-        is_active: false,
-        is_pinned: true,
-      },
-      {
-        id: 4,
-        first_name: 'Wain',
-        last_name: 'Valeri',
-        email: 'wvaleri1@dion.ne.jp',
-        job_title: 'Director of Sales',
-        area: 'Human Resources',
-        is_active: false,
-        is_pinned: true,
-      },
-    ]
-
+    const isLoading = ref(false)
+    const error = ref()
+    const pinnedContacts = ref()
+    const unpinnedContacts = ref()
+    let filteredContacts: Contact[] = []
+    let response: AxiosResponse<Contact[]> | any = []
+    const getContacts = async() => {
+      isLoading.value = true
+      try {
+        response = await axios.get<Contact[]>(
+          'http://localhost:3000/contacts',
+        )
+        watch(
+          queryString,
+          () => {
+            filteredContacts = response.data.filter((contact: Contact) => {
+              if (queryString.value) {
+                return contact.first_name.toLowerCase().includes(queryString.value.toLowerCase())
+                  || contact.last_name.toLowerCase().includes(queryString.value.toLowerCase())
+                  || contact.email.toLowerCase().includes(queryString.value.toLowerCase())
+                  || contact.job_title.toLowerCase().includes(queryString.value.toLowerCase())
+                  || contact.area.toLowerCase().includes(queryString.value.toLowerCase())
+              }
+              else { return true }
+            },
+            )
+            pinnedContacts.value = []
+            unpinnedContacts.value = []
+            filteredContacts.map(contact => contact.is_pinned ? pinnedContacts.value.push(contact) : unpinnedContacts.value.push(contact))
+          },
+          { immediate: true },
+        )
+        error.value = null
+      }
+      catch (e) {
+        error.value = e
+      }
+      finally {
+        isLoading.value = false
+      }
+    }
+    getContacts()
+    // expose to template
     return {
-      team,
+      isLoading, error, pinnedContacts, unpinnedContacts, getContacts,
     }
   },
 }
 </script>
-
 <route lang="yaml">
 meta:
   layout: home

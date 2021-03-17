@@ -15,52 +15,18 @@
           Status
         </th>
       </tr>
-      <div v-if="isLoading">
-        Loading ...
-      </div>
-      <div v-else-if="error">
-        {{ error.message }}
-        <button class="btn m-3 text-sm mt-8" @click="getContacts">
-          Try again
-        </button>
-      </div>
-      <TableRow v-for="contact in data" v-else :key="contact.id" class="border-b-1 border-gray-200" :contact="contact" />
+      <TableRow v-for="contact in contacts" :key="contact.id" class="border-b-1 border-gray-200" :contact="contact" />
     </table>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from 'vue'
-import axios, { AxiosResponse } from 'axios'
-import Contact from '~/interfaces/contact'
 export default {
-  setup() {
-    const isLoading = ref(false)
-    const error = ref()
-    const data = ref()
-    let response: AxiosResponse<Contact[]> | any = []
-    const getContacts = async() => {
-      isLoading.value = true
-      try {
-        response = await axios.get<Contact[]>(
-          'http://localhost:3000/contacts',
-        )
-        data.value = response.data
-        error.value = null
-      }
-      catch (e) {
-        error.value = e
-      }
-      finally {
-        isLoading.value = false
-      }
-    }
-    response = getContacts()
-    // expose to template
-    return {
-      isLoading, error, data, getContacts,
-    }
+  props: {
+    contacts: {
+      type: Array,
+      required: true,
+    },
   },
 }
-
 </script>
