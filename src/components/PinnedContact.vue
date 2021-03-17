@@ -15,15 +15,15 @@
         <img src="assets/avatar.png" alt="">
       </div>
     </div>
-    <div class="flex justify-around h-12.5 border-t-1">
-      <div class="flex w-1/2 border-r-1 justify-center items-center h-full">
+    <div class="flex justify-around h-14 border-t-1">
+      <button class="flex w-1/2 border-r-1 justify-center items-center h-full hover:bg-gray-100">
         <img src="assets/email.svg" width="16" class="h-3">
         <span class="ml-3.5 text-gray-700">Email</span>
-      </div>
-      <div class="flex w-1/2  justify-center items-center h-full">
+      </button>
+      <button class="flex w-1/2  justify-center items-center h-full hover:bg-gray-100">
         <img src="assets/phone.svg" width="16" class="h-3">
         <span class="ml-3.5 text-gray-700">Call</span>
-      </div>
+      </button>
     </div>
   </div>
 </template>
