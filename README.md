@@ -4,8 +4,8 @@
 ```
 npm install
 ```
-### Compiles and hot-reloads for development
-# Please run the two following step in two differents terminal
+## Compiles and hot-reloads for development
+### Please run the two following step in two differents terminal
 ```
 npm run dev
 npm run server
